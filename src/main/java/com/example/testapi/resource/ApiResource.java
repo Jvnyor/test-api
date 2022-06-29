@@ -3,6 +3,7 @@ package com.example.testapi.resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.testapi.service.ApiService;
@@ -15,7 +16,7 @@ public class ApiResource {
 	private ApiService apiService;
 	
 	@GetMapping
-	public String arrayToStringFormatted(String[] stringArr) {
+	public String arrayToStringFormatted(@RequestParam(name = "stringArr", required = false) String[] stringArr) {
 		return apiService.arrayToStringFormatted(stringArr);
 	}
 }
