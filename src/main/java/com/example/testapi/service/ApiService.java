@@ -1,8 +1,10 @@
 package com.example.testapi.service;
 
+import java.util.Arrays;
+
 import org.springframework.stereotype.Service;
 
-import com.example.testapi.StringArrE;
+import com.example.testapi.model.StringE;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -10,28 +12,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ApiService {
 
-	public String arrayToStringFormatted(String[] stringArr) {
-		String string = null;
-
-		if (stringArr.length > 1) {
-			for (int i = 0; i < stringArr.length; i++) {
-				if (StringArrE.stringIsValid(stringArr[i])) {
-					stringArr[i] = String.format("'%s'", stringArr[i].trim());
-				} else {
-					throw new IllegalArgumentException();
+	public String arrayOfEnumsToStringFormatted(StringE[] arrE) {
+		final String regex = "[\\[\\]]";
+		if (arrE != null && arrE.length > 0) {
+			String[] arrS = new String[arrE.length];
+			for (int i = 0; i < arrE.length; i++) {
+				if (StringE.stringIsEnum(arrE[i].toString().trim())) {
+					arrS[i] = arrE[i].getParam();
 				}
 			}
-			string = String.join(",", stringArr);
-		}
-		if (stringArr.length == 1) {
-			if (StringArrE.stringIsValid(stringArr[0])) {
-				string = String.format("'%s'", stringArr[0].trim());
-			} else {
-				throw new IllegalArgumentException();
-			}
+			log.info("Array of string(s): {}", Arrays.toString(arrS).replaceAll(regex, ""));
+			return Arrays.toString(arrS).replaceAll(regex, "");
 		}
 
-		log.info(string);
-		return string;
+		return null;
 	}
 }
