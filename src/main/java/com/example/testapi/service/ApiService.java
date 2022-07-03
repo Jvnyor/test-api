@@ -1,30 +1,22 @@
 package com.example.testapi.service;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.example.testapi.model.StringE;
-
-import lombok.extern.slf4j.Slf4j;
+import com.example.testapi.util.StringToEnumConverter;
 
 @Service
-@Slf4j
 public class ApiService {
 
 	public String arrayOfEnumsToStringFormatted(StringE[] arrE) {
-		final String regex = "[\\[\\]]";
-		if (arrE != null && arrE.length > 0) {
-			String[] arrS = new String[arrE.length];
-			for (int i = 0; i < arrE.length; i++) {
-				if (StringE.stringIsEnum(arrE[i].toString().trim())) {
-					arrS[i] = arrE[i].getParam();
-				}
-			}
-			log.info("Array of string(s): {}", Arrays.toString(arrS).replaceAll(regex, ""));
-			return Arrays.toString(arrS).replaceAll(regex, "");
-		}
-
-		return null;
+		final StringToEnumConverter stringToEnumConverter = new StringToEnumConverter();
+		return (arrE != null && arrE.length > 0)
+				? Arrays.stream(arrE)
+						.filter(e -> stringToEnumConverter.convert(e.toString()) != null)
+						.map(e -> String.format("'%s'", e)).collect(Collectors.joining(", "))
+				: null;
 	}
 }
