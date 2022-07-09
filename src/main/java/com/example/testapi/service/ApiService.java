@@ -1,22 +1,20 @@
 package com.example.testapi.service;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.testapi.model.StringE;
-import com.example.testapi.util.StringToEnumConverter;
+import com.example.testapi.repository.ApiRepository;
 
 @Service
 public class ApiService {
 
-	public String arrayOfEnumsToStringFormatted(StringE[] arrE) {
-		final StringToEnumConverter stringToEnumConverter = new StringToEnumConverter();
-		return (arrE != null && arrE.length > 0)
-				? Arrays.stream(arrE)
-						.filter(e -> stringToEnumConverter.convert(e.toString()) != null)
-						.map(e -> String.format("'%s'", e)).collect(Collectors.joining(", "))
-				: null;
+	@Autowired
+	private ApiRepository apiRepository;
+	
+	public List<String> arrayOfEnumsToStringTest(StringE[] eArr) {
+		return apiRepository.arrayOfEnumsToStringTest(eArr);
 	}
 }

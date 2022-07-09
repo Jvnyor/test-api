@@ -1,5 +1,7 @@
 package com.example.testapi.resource;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +20,11 @@ public class ApiResource {
 	private ApiService apiService;
 
 	@GetMapping
-	public ResponseEntity<String> arrayToStringFormatted(
-			@RequestParam(name = "arrE", required = false) StringE[] arrE) {
-		return ResponseEntity.ok(apiService.arrayOfEnumsToStringFormatted(arrE));
+	public ResponseEntity<List<String>> arrayOfEnumsToStringTest(
+			@RequestParam(name = "arrE", required = false) StringE[] eArr) {
+		
+		List<String> strings = apiService.arrayOfEnumsToStringTest(eArr);
+		
+		return (strings.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(strings);
 	}
 }
