@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.testapi.model.StringE;
+import com.example.testapi.model.Teste;
 import com.example.testapi.service.ApiService;
 
 @RestController
@@ -20,11 +21,12 @@ public class ApiResource {
 	private ApiService apiService;
 
 	@GetMapping
-	public ResponseEntity<List<String>> arrayOfEnumsToStringTest(
+	public ResponseEntity<List<Teste>> arrayOfEnumsToStringTest(
+			@RequestParam(name = "active", required = false) String active,
 			@RequestParam(name = "arrE", required = false) StringE[] eArr) {
-		
-		List<String> strings = apiService.arrayOfEnumsToStringTest(eArr);
-		
-		return (strings.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(strings);
+
+		List<Teste> testes = apiService.arrayOfEnumsToStringTest(active, eArr);
+
+		return (testes.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(testes);
 	}
 }

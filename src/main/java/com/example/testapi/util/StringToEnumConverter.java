@@ -8,7 +8,7 @@ public class StringToEnumConverter implements Converter<String, StringE> {
 
 	@Override
 	public StringE convert(String s) {
-		return Enum.valueOf(StringE.class, s);
+		return Enum.valueOf(StringE.class, s.trim());
 	}
 
 }
